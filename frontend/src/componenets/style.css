@@ -1,0 +1,7 @@
+textarea {
+    outline: 0;
+}
+
+textarea:focus {
+    outline: 0;
+}
