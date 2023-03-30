@@ -1,18 +1,23 @@
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import CallToast from "../common/toast"
+import request from "../common/httpService"
+import apiUrl from "../common/apiUrl"
 
 const Login = () => {
-    const [userName, setUserName] = useState("")
+    const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const navigate = useNavigate()
 
     const login = (e) => {
         e.preventDefault()
-        if (userName.length >= 3 && password.length >= 1) {
+        let model = {email: email, password: password}
+        request(apiUrl + "/login", model, "post", async (res)=>{            
+            localStorage.setItem("token",res.data.token)
+            localStorage.setItem("user",JSON.stringify(res.data.user))
+            CallToast("success", "Login successful!")
             navigate("/")
-            CallToast("success", "Registration successful!")
-        }
+        })
     }
 
     const checkValidation = (e) => {
@@ -37,15 +42,15 @@ const Login = () => {
                             </span>
                             <input
                                 onKeyUp={checkValidation}
-                                type="text"
+                                type="email"
                                 className="form-control bg-dark-subtle"
-                                placeholder="Username"
-                                aria-label="Username"
+                                placeholder="email"
+                                aria-label="email"
                                 aria-describedby="basic-addon1"
                                 required
                                 minLength="3"
-                                value={userName}
-                                onChange={(event) => setUserName(event.target.value)} />
+                                value={email}
+                                onChange={(event) => setEmail(event.target.value)} />
                         </div>
                         <div className="input-group mb-3">
                             <span className="input-group-text bg-dark-subtle" id="basic-addon1">

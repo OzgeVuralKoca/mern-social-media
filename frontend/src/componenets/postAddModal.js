@@ -1,6 +1,32 @@
-import profileImg from "../images/profileImg.jpg"
+import { useNavigate } from 'react-router-dom'
+import apiUrl from "../common/apiUrl"
 
 const PostAddModal = () => {
+    const navigate = useNavigate()
+
+    let nowTime = ""
+    const days = ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"];
+    const today = new Date();
+    let day = days[today.getDay()];
+    const hour = today.getHours()
+    const minute = today.getMinutes()
+    if (minute < 10){
+        nowTime = `${day} ${hour}:0${minute}`
+    } else {
+        nowTime = `${day} ${hour}:${minute}`
+    }
+    
+    const getUser = () => {
+        const userString = localStorage.getItem("user");
+        if (userString == null) {
+            navigate("/login")
+        }
+
+        return JSON.parse(userString);
+    }
+
+    const User = getUser()
+
     return (
         <>
             <div className="modal fade" id="postAddModal" tabIndex="-1" aria-labelledby="postAddModalLabel" aria-hidden="true">
@@ -12,19 +38,19 @@ const PostAddModal = () => {
                         </div>
                         <div className="modal-body">
                             <div className="post-div mb-2">
-                            <img className="profile-img-post me-3" src={profileImg} />
-                            <div>
-                                <p style={{ marginBottom: "0" }}>
-                                    Özge Vural Koca
-                                </p>
-                                <p style={{ fontSize: "0.8em", marginBottom: "0" }} className="text-white-50">
-                                    Frontend Developer
-                                </p>
-                                <p className="text-white-50" style={{ fontWeight: "300", fontSize: "0.8em", marginBottom: "0" }}>
-                                    26.03.2023 02:00
-                                </p>
+                                <img className="profile-img-post me-3" src={apiUrl + "/" + User.profileImage.path} />
+                                <div>
+                                    <p style={{ marginBottom: "0" }}>
+                                        {User.name}
+                                    </p>
+                                    <p style={{ fontSize: "0.8em", marginBottom: "0" }} className="text-white-50">
+                                        {User.profession}
+                                    </p>
+                                    <p className="text-white-50" style={{ fontWeight: "300", fontSize: "0.8em", marginBottom: "0" }}>
+                                        {nowTime}
+                                    </p>
+                                </div>
                             </div>
-                        </div>
                             <hr />
                             <textarea
                                 className="form-control"

@@ -1,5 +1,7 @@
-import profileImg from "../images/profileImg.jpg"
 import { Outlet, Link, useNavigate } from 'react-router-dom'
+import { useEffect } from "react"
+import apiUrl from "../common/apiUrl"
+
 
 const Layouts = () => {
 
@@ -8,6 +10,25 @@ const Layouts = () => {
     const logout = () => {
         localStorage.clear();
         navigate("/login")
+    }
+
+    const authenticationCheck = () => {
+        let token = localStorage.getItem("token")
+        if(token == null){
+            navigate("/login")
+        }
+    }
+
+    useEffect(() => {
+        authenticationCheck()
+    }, [])
+
+    const getUser = () =>{
+        const userString = localStorage.getItem("user");
+        if(userString == null){
+            navigate("/login")
+        }
+        return JSON.parse(userString);
     }
 
     return (
@@ -22,8 +43,8 @@ const Layouts = () => {
                         <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                             <li className="nav-item dropdown">
                                 <a className="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <img className="profile-img-comment me-2" src={profileImg} />
-                                    Özge
+                                    <img className="profile-img-comment me-2" src={apiUrl + "/" + getUser().profileImage.path} />
+                                    {getUser().name}
                                 </a>
                                 <ul className="dropdown-menu dropdown-menu-end">
                                     <li>

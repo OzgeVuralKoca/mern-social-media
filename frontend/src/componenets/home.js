@@ -8,14 +8,14 @@ const Home = () => {
             <div className="row mt-4">
                 {/* Profil Card */}
                 <div className="col-md-3">
-                    <div className="text-white bg-dark text-center rounded-4 pb-2">
+                    <div className="text-white bg-dark text-center rounded-3 pb-2">
                         <img
                             className="profile-img my-4"
                             src={profileImg} />
                         <h5 className="text-info">Özge Vural Koca</h5>
                         <p className="text-white-50">Frontend Developer</p>
                     </div>
-                    <div className="text-white bg-dark rounded-4 pb-2 mt-4 p-4">
+                    <div className="text-white bg-dark rounded-3 pb-2 mt-4 p-4">
                         <h5 className="text-info">About Me</h5>
                         <hr />
                         <p>Hakkımda: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
@@ -24,7 +24,7 @@ const Home = () => {
                 {/* Post Card */}
                 <div className="col-md-8 ms-auto">
                     {/* Start post */}
-                    <div className="text-white bg-dark rounded-4 p-4">
+                    <div className="text-white bg-dark rounded-3 p-4">
                         <div className="post-div">
                             <img className="profile-img-post me-3" src={profileImg} />
                             <button className="post-button btn btn-secondary rounded-5 text-start ps-3"
@@ -36,7 +36,7 @@ const Home = () => {
                     </div>
                     <hr className="text-white" />
                     {/* posts */}
-                    <div className="text-white bg-dark rounded-4 p-4">
+                    <div className="text-white bg-dark rounded-3 p-4">
                         <div className="post-div mb-2">
                             <img className="profile-img-post me-3" src={profileImg} />
                             <div>
