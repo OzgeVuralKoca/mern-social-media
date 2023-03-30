@@ -9,7 +9,7 @@
 body {
   margin: 0;
   padding: 0;
-  background-color: #de4f0d;
+  background-color: #0e0e0e;
 }
 
 /* Home Style */
@@ -30,6 +30,10 @@ body {
   height: 55px;
   border-radius: 100%;
   border: 2px solid #5fa4b6;
+}
+
+.post-shadow{
+  box-shadow: 1px 1px 3px #de4f0d;
 }
 
 .post-div {

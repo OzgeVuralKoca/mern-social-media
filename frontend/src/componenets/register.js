@@ -1,7 +1,6 @@
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import CallToast from "../common/toast"
-import axios from "axios"
 import apiUrl from "../common/apiUrl"
 import request from "../common/httpService"
 

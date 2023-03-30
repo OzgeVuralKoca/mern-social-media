@@ -1,5 +1,10 @@
 textarea {
     outline: 0;
+    
+}
+
+textarea::placeholder{
+    color: #bbbbbb !important;
 }
 
 textarea:focus {
