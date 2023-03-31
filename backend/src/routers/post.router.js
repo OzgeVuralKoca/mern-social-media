@@ -17,6 +17,14 @@ Router.post("/posts", async (req, res) => {
                         foreignField: "_id",
                         as: "users"
                     }
+                },
+                {
+                    $lookup: {
+                        from: "likeposts",
+                        localField: "_id",
+                        foreignField: "postId",
+                        as: "likes"
+                    }
                 }
             ])
                 .sort({ createdDate: -1 })

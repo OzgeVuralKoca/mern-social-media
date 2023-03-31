@@ -6,7 +6,7 @@ import apiUrl from "../common/apiUrl"
 const Layouts = () => {
 
     const navigate = useNavigate()
-    
+
     const logout = () => {
         localStorage.clear();
         navigate("/login")
@@ -14,7 +14,7 @@ const Layouts = () => {
 
     const authenticationCheck = () => {
         let token = localStorage.getItem("token")
-        if(token == null){
+        if (token == null) {
             navigate("/login")
         }
     }
@@ -23,9 +23,9 @@ const Layouts = () => {
         authenticationCheck()
     }, [])
 
-    const getUser = () =>{
+    const getUser = () => {
         const userString = localStorage.getItem("user");
-        if(userString == null){
+        if (userString == null) {
             navigate("/login")
         }
         return JSON.parse(userString);
@@ -35,7 +35,7 @@ const Layouts = () => {
         <>
             <nav className="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
                 <div className="container-fluid container">
-                    <Link to="/" className="navbar-brand">social <span className="text-info">me</span>dia</Link>
+                    <Link to="/" className="navbar-brand fs-4">social <span className="text-info">me</span>dia</Link>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
@@ -59,8 +59,7 @@ const Layouts = () => {
                     </div>
                 </div>
             </nav>
-
-            <Outlet />
+                <Outlet />
         </>
     )
 }
