@@ -1,13 +1,12 @@
 const express = require("express")
 const Post = require("../models/post")
-const {v4:uuidv4} = require("uuid")
+const { v4: uuidv4 } = require("uuid")
 
 const Router = express.Router()
 
 Router.post("/posts", async (req, res) => {
     try {
         const { pageSize, userId } = req.body;
-
         const posts =
             await Post.aggregate([
                 {
@@ -25,10 +24,35 @@ Router.post("/posts", async (req, res) => {
                         foreignField: "postId",
                         as: "likes"
                     }
-                }
+                },
+                {
+                    $lookup: {
+                        from: "comments",
+                        let: { postId: "$_id" },
+                        pipeline: [
+                            {
+                                $match: {
+                                    $expr: { $eq: ["$postId", "$$postId"] }
+                                }
+                            },
+                            {
+                                $lookup: {
+                                    from: "users",
+                                    localField: "userId",
+                                    foreignField: "_id",
+                                    as: "user"
+                                }
+                            },
+                            {
+                                $unwind: "$user"
+                            }
+                        ],
+                        as: "comments"
+                    }
+                },
+                { $sort: { createdDate: -1 } },
+                { $limit: pageSize }
             ])
-                .sort({ createdDate: -1 })
-                .limit(pageSize)
         res.json(posts)
     } catch (error) {
         res.status(500).json({ message: error.message })
@@ -37,8 +61,7 @@ Router.post("/posts", async (req, res) => {
 
 Router.post("/post/add", async (req, res) => {
     try {
-        const {userId, content} = req.body;
-
+        const { userId, content } = req.body;
         const post = new Post({
             _id: uuidv4(),
             content: content,
@@ -47,8 +70,7 @@ Router.post("/post/add", async (req, res) => {
         });
 
         await post.save();
-
-        res.json({message: "Post send successfuly!"});
+        res.json({ message: "Post send successfuly!" });
     } catch (error) {
         res.status(500).json({ message: error.message })
     }

@@ -1,10 +1,11 @@
 import profileImg from "../images/profileImg.jpg"
-import PostAddModal from "./postAddModal"
+import PostAddModal from "./PostAddModal"
 import "./style.css"
-import request from "../common/httpService"
-import apiUrl from "../common/apiUrl"
+import request from "../common/HttpService"
+import ApiUrl from "../common/ApiUrl"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
+import DateFormat from "../common/DateFormat"
 
 const Home = () => {
     const [posts, setPosts] = useState([])
@@ -25,7 +26,7 @@ const Home = () => {
 
     const getPost = (p = 10) => {
         let model = { pageSize: p, userId: User._id }
-        request(apiUrl + "/posts", model, "post", (res) => {
+        request(ApiUrl + "/posts", model, "post", (res) => {
             setPosts(res.data)
         })
     }
@@ -64,14 +65,23 @@ const Home = () => {
 
         return JSON.parse(userString);
     }
-
     const User = getUser()
 
     const likeOrUnlike = (postId) => {
         let model = { userId: User._id, postId: postId }
-        request(apiUrl + "/likeOrUnlike", model, "post", () => {
+        request(ApiUrl + "/likeOrUnlike", model, "post", () => {
             getPost(pageSize)
         })
+    }
+
+    const addComment = (_id) => {
+        let element = document.getElementById("commentInput-" + _id)
+        let content = element.value
+        let model = { postId: _id, content: content, userId: User._id }
+        request(ApiUrl + "/comments/add", model, "post", (res) => {
+            getPost();
+        })
+        element.value = ""
     }
 
     return (
@@ -82,7 +92,7 @@ const Home = () => {
                     {/* Start post */}
                     <div className="text-white bg-dark rounded-3 p-4 post-shadow">
                         <div className="post-div">
-                            <img className="profile-img-post me-3" src={apiUrl + "/" + User.profileImage.path} />
+                            <img className="profile-img-post me-3" src={ApiUrl + "/" + User.profileImage.path} />
                             <button className="post-button btn btn-secondary rounded-5 text-start ps-3"
                                 data-bs-toggle="modal"
                                 data-bs-target="#postAddModal">
@@ -97,8 +107,8 @@ const Home = () => {
                             <div key={index}>
                                 <div className="text-white bg-dark rounded-3 p-4 my-3 post-shadow">
                                     <div className="post-div mb-2">
-                                        <img className="profile-img-post me-3" src={apiUrl + "/" + val.users[0].profileImage.path} />
-                                        <div>
+                                        <img className="profile-img-post me-3" src={ApiUrl + "/" + val.users[0].profileImage.path} />
+                                        <div style={{ float: "right" }}>
                                             <p style={{ marginBottom: "0" }}>
                                                 {val.users[0].name}
                                             </p>
@@ -106,7 +116,7 @@ const Home = () => {
                                                 {val.users[0].profession}
                                             </p>
                                             <p className="text-white-50" style={{ fontWeight: "300", fontSize: "0.8em", marginBottom: "0" }}>
-                                                {nowTime}
+                                                {DateFormat(val.createdDate)}
                                             </p>
                                         </div>
                                     </div>
@@ -147,18 +157,42 @@ const Home = () => {
                                         style={{ display: "none" }}
                                         id={'div-' + index}>
                                         <div className="input-group mb-4 rounded-5">
-                                            <input type="text" className="form-control bg-secondary text-white py-2 rounded-start-5" placeholder="Add a comment..." />
-                                            <button className="btn btn-info rounded-end-5" type="button" id="button-addon2">Send</button>
+                                            <input
+                                                type="text"
+                                                className="form-control bg-secondary text-white py-2 rounded-start-5"
+                                                placeholder="Add a comment..."
+                                                id={"commentInput-" + val._id} />
+                                            <button
+                                                className="btn btn-info rounded-end-5"
+                                                type="button"
+                                                id="button-addon2"
+                                                onClick={() => addComment(val._id)}>
+                                                Send
+                                            </button>
                                         </div>
-                                        <div className="comment">
-                                            <div>
-                                                <img className="profile-img-comment" src={profileImg} />
-                                            </div>
-                                            <span className="ms-2">
-                                                Sydney College'dan Latince profesörü Richard McClintock, bir Lorem Ipsum pasajında geçen ve anlaşılması en güç sözcüklerden biri olan 'consectetur' sözcüğünün klasik edebiyattaki örnekleri
-                                            </span>
-                                        </div>
-
+                                        {val.comments.map((commentVal, commentIndex) => {
+                                            return (
+                                                <div className="comment my-2">
+                                                    <div className="post-div">
+                                                        <img
+                                                            className="profile-img-comment me-3"
+                                                            src={ApiUrl + "/" + commentVal.user.profileImage.path}
+                                                        />
+                                                        <div className="comment-div px-3 pt-2 rounded-4">
+                                                            <p style={{ marginBottom: "0" }}>
+                                                                {commentVal.user.name}
+                                                            </p>
+                                                            <p className="text-white-50" style={{ fontWeight: "300", fontSize: "0.8em", marginBottom: "0" }}>
+                                                                {DateFormat(val.createdDate)}
+                                                            </p>
+                                                            <p className="ms-2">
+                                                                {commentVal.content}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            )
+                                        })}
                                     </div>
                                 </div>
                             </div>
@@ -171,7 +205,7 @@ const Home = () => {
                     <div className="text-white bg-dark text-center rounded-3 pb-2">
                         <img
                             className="profile-img my-4"
-                            src={apiUrl + "/" + User.profileImage.path} />
+                            src={ApiUrl + "/" + User.profileImage.path} />
                         <h5 className="text-info">{User.name}</h5>
                         <p className="text-white-50">{User.profession}</p>
                     </div>

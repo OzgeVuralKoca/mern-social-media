@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import apiUrl from "../common/apiUrl"
-import request from '../common/httpService'
+import ApiUrl from "../common/ApiUrl"
+import request from '../common/HttpService'
 import CallToast from '../common/toast'
 import "./style.css"
 
@@ -34,7 +34,7 @@ const PostAddModal = ({getPost}) => {
 
     const sendPost = () => {
         let model = {content: content, userId: User._id}
-        request(apiUrl + "/post/add", model, "post", (res) => {
+        request(ApiUrl + "/post/add", model, "post", (res) => {
             CallToast("success", res.data.message)
             setContent("")
             let closeBtn = document.getElementById("postAddModalCloseBtn")
@@ -54,7 +54,7 @@ const PostAddModal = ({getPost}) => {
                         </div>
                         <div className="modal-body">
                             <div className="post-div mb-2">
-                                <img className="profile-img-post me-3" src={apiUrl + "/" + User.profileImage.path} />
+                                <img className="profile-img-post me-3" src={ApiUrl + "/" + User.profileImage.path} />
                                 <div>
                                     <p style={{ marginBottom: "0" }}>
                                         {User.name}

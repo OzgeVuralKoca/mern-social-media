@@ -7,6 +7,7 @@ const path = require("path")
 const authRouter = require("./src/routers/auth.router")
 const postRouter = require("./src/routers/post.router")
 const likePostRouter = require("./src/routers/like-post.router")
+const commentRouter = require("./src/routers/comment.router")
 
 // Database Connection
 connection()
@@ -27,6 +28,7 @@ app.use(cors())
 app.use("/", authRouter)
 app.use("/", postRouter)
 app.use("/", likePostRouter)
+app.use("/comments", commentRouter)
 
 // Listen Port
 const port = process.env.PORT || 5000

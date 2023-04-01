@@ -23,7 +23,7 @@ Router.post('/register', upload.single("image"), async (req, res) => {
                     user.createdDate = new Date().setHours(new Date().getUTCHours() + 3)
                     user.profileImage = req.file
                     await user.save()
-                    const model = { token: token, user: user };
+                    const model = { token: token(), user: user };
                     res.json(model);
                 }
             } else {
@@ -43,20 +43,21 @@ Router.post('/register', upload.single("image"), async (req, res) => {
 
 Router.post("/login", async (req, res) => {
     try {
-        const { email, password } = req.body
-        const user = await User.findOne({ email: email })
+        const { emailOrUserName, password } = req.body
+        let user = await User.findOne({ email: emailOrUserName }) || await User.findOne({ userName: emailOrUserName })
         if (user == null) {
-            res.status(403).json({ message: "Email is not found!" })
+            res.status(403).json({ message: "User is not found!" })
         } else {
             if (user.password != password) {
                 res.status(403).json({ message: "Password is wrong!" })
             } else {
-                const model = {token: token, user: user}
+                const model = { token: token(), user: user }
                 res.json(model)
             }
         }
     } catch (error) {
-
+        removeFile(req.file)
+        res.status(500).json({ message: error.message })
     }
 })
 

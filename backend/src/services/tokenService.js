@@ -6,8 +6,8 @@ const options = {
     expiresIn: "1d"
 }
 
-const token = (payload) => {
-    return jwt.sign(payload, secretKey, options)
+const token = () => {
+    return jwt.sign({}, secretKey, options)
 }
 
 module.exports = token

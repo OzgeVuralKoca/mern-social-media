@@ -1,8 +1,8 @@
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import CallToast from "../common/toast"
-import apiUrl from "../common/apiUrl"
-import request from "../common/httpService"
+import ApiUrl from "../common/ApiUrl"
+import request from "../common/HttpService"
 
 const Register = () => {
     const [userName, setUserName] = useState("");
@@ -22,7 +22,7 @@ const Register = () => {
         formData.append("password", password)
         formData.append("profession", profession)
         formData.append("image", profileImage)
-        request(`${apiUrl}/register`, formData, "post", (res) => {
+        request(`${ApiUrl}/register`, formData, "post", (res) => {
             localStorage.setItem("token", res.data.token)
                 localStorage.setItem("user", JSON.stringify(res.data.user))
                 CallToast("success", "Registration successful!")
