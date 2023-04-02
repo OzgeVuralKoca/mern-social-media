@@ -1,13 +1,44 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import ApiUrl from "../common/ApiUrl"
 import request from '../common/HttpService'
 import CallToast from '../common/toast'
 import "./style.css"
 
-const PostAddModal = ({getPost}) => {
+const PostAddModal = ({ getPost }) => {
     const navigate = useNavigate()
     const [content, setContent] = useState("")
+    const [file, setFile] = useState();
+    const [type, setType] = useState("");
+    const [previewUrl, setPreviewUrl] = useState("");
+
+    const fileInput = useRef(null);
+
+    // dosyayı yükleme ve önizleme
+    const setFileAndType = (e, type) => {
+        // Dosya yükleme işlemi sırasında önceki önizlemeyi sıfırlayın
+        setPreviewUrl(null);
+
+        // Dosya yükleme işlemi için dosya ve dosya türü bilgilerini ayarlayın
+        const selectedFile = e.target.files[0];
+        setFile(selectedFile);
+        setType(type);
+
+        // Dosya yüklemesi tamamlandıktan sonra önizleme URL'sini oluşturun
+        const reader = new FileReader();
+
+        reader.onloadend = () => {
+            setPreviewUrl(reader.result);
+        };
+
+        if (selectedFile) {
+            if (selectedFile.type.startsWith("image")) {
+                reader.readAsDataURL(selectedFile);
+            } else if (selectedFile.type.startsWith("video")) {
+                reader.readAsArrayBuffer(selectedFile);
+            }
+        }
+    };
 
     let nowTime = ""
     const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -15,12 +46,12 @@ const PostAddModal = ({getPost}) => {
     let day = days[today.getDay()];
     const hour = today.getHours()
     const minute = today.getMinutes()
-    if (minute < 10){
+    if (minute < 10) {
         nowTime = `${day} ${hour}:0${minute}`
     } else {
         nowTime = `${day} ${hour}:${minute}`
     }
-    
+
     const getUser = () => {
         const userString = localStorage.getItem("user");
         if (userString == null) {
@@ -33,10 +64,20 @@ const PostAddModal = ({getPost}) => {
     const User = getUser()
 
     const sendPost = () => {
-        let model = {content: content, userId: User._id}
-        request(ApiUrl + "/post/add", model, "post", (res) => {
+        const formData = new FormData();
+        formData.append("content", content);
+        formData.append("fileType", type);
+        formData.append("userId", getUser()._id);
+        if (file != null) {
+            formData.append("file", file, file.name)
+        }
+
+        request(ApiUrl + "/post/add", formData, "post", (res) => {
             CallToast("success", res.data.message)
             setContent("")
+            setFile(null);
+            setType(null);
+            setPreviewUrl(null);
             let closeBtn = document.getElementById("postAddModalCloseBtn")
             closeBtn.click()
             getPost()
@@ -70,18 +111,56 @@ const PostAddModal = ({getPost}) => {
                             <hr />
                             <textarea
                                 className="form-control bg-dark text-white"
-                                placeholder="Ne hakkında konuşmak istiyorsunuz?"
+                                placeholder="What do you want to talk about?"
                                 rows="5"
                                 value={content}
                                 onChange={(e) => setContent(e.target.value)}>
                             </textarea>
+                            {previewUrl && (
+                                <div>
+                                    {type === "image" ? (
+                                        <img src={previewUrl} alt="File preview" style={{ maxWidth: '100%' }} />
+                                    ) : (
+                                        <video width="100%" controls>
+                                            <source src={URL.createObjectURL(file)} type={file.type} />
+                                            Your browser does not support the video tag.
+                                        </video>
+                                    )}
+                                </div>
+                            )}
 
+
+                            <div className="form-group mt-2">
+                                <span className='text-info me-3'>Add for post:</span>
+                                <label className="fileLabel mx-1" htmlFor="image" style={{cursor: "pointer"}}>
+                                    <i className="fa fa-image bg-info text-muted px-2 py-1 rounded"></i>
+                                </label>
+                                <input
+                                    type="file"
+                                    ref={fileInput}
+                                    id="image"
+                                    name="image"
+                                    style={{ display: "none" }}
+                                    className="mt-1"
+                                    onChange={(e) => setFileAndType(e, "image")} />
+                                <label className="fileLabel" htmlFor="video" style={{cursor: "pointer"}}>
+                                    <i className="fa fa-play bg-info text-muted px-2 py-1 rounded mx-3 "></i>
+                                </label>
+                                <input
+                                    type="file"
+                                    ref={fileInput}
+                                    id="video"
+                                    name="video"
+                                    style={{ display: "none" }}
+                                    className="mt-1"
+                                    onChange={(e) => setFileAndType(e, "video")} />
+                            </div>
                         </div>
                         <div className="modal-footer">
                             <button
-                              type="button"
-                              className="btn btn-info rounded-5"
-                              onClick={sendPost}>
+                                type="button"
+                                className="btn btn-info rounded-5"
+                                onClick={sendPost}>
                                 <i className="fa-regular fa-paper-plane me-2"></i>
                                 Share
                             </button>

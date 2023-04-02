@@ -1,6 +1,6 @@
 textarea {
     outline: 0;
-    
+    border: none !important;
 }
 
 textarea::placeholder{
@@ -8,5 +8,6 @@ textarea::placeholder{
 }
 
 textarea:focus {
-    outline: 0;
+    outline: 0 !important;
+    border: none
 }

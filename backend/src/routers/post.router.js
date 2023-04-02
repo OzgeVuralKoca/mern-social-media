@@ -1,6 +1,7 @@
 const express = require("express")
 const Post = require("../models/post")
 const { v4: uuidv4 } = require("uuid")
+const upload = require("../services/uploadService")
 
 const Router = express.Router()
 
@@ -59,14 +60,16 @@ Router.post("/posts", async (req, res) => {
     }
 })
 
-Router.post("/post/add", async (req, res) => {
+Router.post("/post/add", upload.single("file"), async (req, res) => {
     try {
-        const { userId, content } = req.body;
+        const { userId, content, fileType } = req.body;
         const post = new Post({
             _id: uuidv4(),
             content: content,
             userId: userId,
-            createdDate: new Date()
+            createdDate: new Date(),
+            video: fileType == "video" ? req.file: {},
+            image: fileType == "image" ? req.file : {}
         });
 
         await post.save();
