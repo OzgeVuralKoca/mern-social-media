@@ -38,8 +38,8 @@ body {
   border: 2px solid #5fa4b6;
 }
 
-.post-shadow{
-  box-shadow: 1px 1px 3px #de4f0d;
+.shadow{
+  box-shadow: 3px 3px 6px #302e2e;
 }
 
 .post-div {

@@ -4,6 +4,7 @@ import ApiUrl from "../common/ApiUrl"
 import request from '../common/HttpService'
 import CallToast from '../common/toast'
 import "./style.css"
+import nowTime from '../common/NowTime'
 
 const PostAddModal = ({ getPost }) => {
     const navigate = useNavigate()
@@ -40,18 +41,6 @@ const PostAddModal = ({ getPost }) => {
         }
     };
 
-    let nowTime = ""
-    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    const today = new Date();
-    let day = days[today.getDay()];
-    const hour = today.getHours()
-    const minute = today.getMinutes()
-    if (minute < 10) {
-        nowTime = `${day} ${hour}:0${minute}`
-    } else {
-        nowTime = `${day} ${hour}:${minute}`
-    }
-
     const getUser = () => {
         const userString = localStorage.getItem("user");
         if (userString == null) {
@@ -60,7 +49,7 @@ const PostAddModal = ({ getPost }) => {
 
         return JSON.parse(userString);
     }
-
+    
     const User = getUser()
 
     const sendPost = () => {
@@ -104,7 +93,7 @@ const PostAddModal = ({ getPost }) => {
                                         {User.profession}
                                     </p>
                                     <p className="text-white-50" style={{ fontWeight: "300", fontSize: "0.8em", marginBottom: "0" }}>
-                                        {nowTime}
+                                        {nowTime()}
                                     </p>
                                 </div>
                             </div>

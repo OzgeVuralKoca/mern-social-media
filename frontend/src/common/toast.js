@@ -9,7 +9,7 @@ const CallToast = (type,message) =>{
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "colored",
+        theme: "dark",
     }
     if(type == "error"){
         toast.error(message, options);

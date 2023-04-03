@@ -5,6 +5,7 @@ const upload = require("../services/uploadService")
 
 const Router = express.Router()
 
+// Read Posts
 Router.post("/posts", async (req, res) => {
     try {
         const { pageSize, userId } = req.body;
@@ -51,7 +52,7 @@ Router.post("/posts", async (req, res) => {
                         as: "comments"
                     }
                 },
-                { $sort: { createdDate: -1 } },
+                { $sort: { createdDate: -1 }},
                 { $limit: pageSize }
             ])
         res.json(posts)
@@ -60,6 +61,7 @@ Router.post("/posts", async (req, res) => {
     }
 })
 
+// Add Post
 Router.post("/post/add", upload.single("file"), async (req, res) => {
     try {
         const { userId, content, fileType } = req.body;
@@ -68,7 +70,7 @@ Router.post("/post/add", upload.single("file"), async (req, res) => {
             content: content,
             userId: userId,
             createdDate: new Date(),
-            video: fileType == "video" ? req.file: {},
+            video: fileType == "video" ? req.file : {},
             image: fileType == "image" ? req.file : {}
         });
 
@@ -76,6 +78,17 @@ Router.post("/post/add", upload.single("file"), async (req, res) => {
         res.json({ message: "Post send successfuly!" });
     } catch (error) {
         res.status(500).json({ message: error.message })
+    }
+})
+
+// Delete Post
+Router.post("/post/removeById", async(req, res) => {
+    try {
+        const _id = req.body._id
+        await Post.findByIdAndRemove(_id);
+        res.json({message: "Post is deleted!"})
+    } catch (error) {
+        res.status(400).json({message: error.message})
     }
 })
 

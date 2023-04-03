@@ -3,7 +3,7 @@ import Layouts from "./layouts";
 import NotFound from "./NotFound";
 import Login from "./Login";
 import Register from "./register"
-import Home from "./home";
+import Home from "./HomeComponents/home";
 import Profile from "./profile"
 
 function App() {

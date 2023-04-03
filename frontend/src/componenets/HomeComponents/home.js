@@ -1,28 +1,18 @@
-import profileImg from "../images/profileImg.jpg"
-import PostAddModal from "./PostAddModal"
-import "./style.css"
-import request from "../common/HttpService"
-import ApiUrl from "../common/ApiUrl"
+import PostAddModal from "../PostAddModal"
+import "../style.css"
+import request from "../../common/HttpService"
+import ApiUrl from "../../common/ApiUrl"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import DateFormat from "../common/DateFormat"
+import DateFormat from "../../common/DateFormat"
+import StartPost from "./StartPost"
+import ProfileCard from "./ProfileCard"
+import Comment from "./Comment"
 
 const Home = () => {
     const [posts, setPosts] = useState([])
     const [pageSize, setPageSize] = useState(10)
     const navigate = useNavigate()
-
-    let nowTime = ""
-    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    const today = new Date();
-    let day = days[today.getDay()];
-    const hour = today.getHours()
-    const minute = today.getMinutes()
-    if (minute < 10) {
-        nowTime = `${day} ${hour}:0${minute}`
-    } else {
-        nowTime = `${day} ${hour}:${minute}`
-    }
 
     const getPost = (p = 10) => {
         let model = { pageSize: p, userId: User._id }
@@ -30,6 +20,7 @@ const Home = () => {
             setPosts(res.data)
         })
     }
+
 
     useEffect(() => {
         getPost()
@@ -84,6 +75,13 @@ const Home = () => {
         element.value = ""
     }
 
+    const deletePost = (_id) => {
+        let model = { _id: _id };
+        request(ApiUrl + "/post/removeById", model, "post", (res) => {
+            getPost(); // props aracılığıyla getPost fonksiyonunu çağırın
+        });
+    };
+
     return (
         <>
             <div className="container">
@@ -91,37 +89,30 @@ const Home = () => {
                     {/* Post Card */}
                     <div className="col-md-8 ms-auto">
                         {/* Start post */}
-                        <div className="text-white bg-dark rounded-3 p-4 post-shadow">
-                            <div className="post-div">
-                                <img className="profile-img-post me-3" src={ApiUrl + "/" + User.profileImage.path} />
-                                <button className="post-button btn btn-secondary rounded-5 text-start ps-3"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#postAddModal">
-                                    Start a post
-                                </button>
-                            </div>
-                            <hr/>
-                            <div className="d-flex justify-content-around">
-                                <button className="btn text-info rounded-3 text-start ps-3"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#postAddModal">
-                                    <i className="fa fa-image bg-info text-white px-3 py-1 rounded me-2"></i>
-                                    Add Photo
-                                </button>
-                                <button className="btn text-info rounded-3 text-start ps-3"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#postAddModal">
-                                    <i className="fa fa-play bg-info text-white px-3 py-1 rounded me-2"></i>
-                                    Add Video
-                                </button>
-                            </div>
-                        </div>
+                        <StartPost User={User} />
                         <hr className="text-white" />
                         {/* posts */}
                         {posts.map((val, index) => {
                             return (
                                 <div key={index}>
-                                    <div className="text-white bg-dark rounded-3 p-4 my-3 post-shadow">
+                                    <div className="text-white bg-dark rounded-3 p-4 my-3 shadow">
+                                        {User._id === val.users[0]._id && (
+                                            <div class="dropdown" style={{ float: "right" }}>
+                                                <button class="btn btn-sm text-white" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i className="fa-solid fa-ellipsis h5"></i>
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-end bg-dark shadow">
+                                                    <li>
+                                                        <button
+                                                            onClick={() => deletePost(val._id)}
+                                                            className="btn btn-dark rounded-0 text-white-50 p-2 w-100 text-start">
+                                                            <i className="fa fa-trash me-2"></i>
+                                                            Delete Post
+                                                        </button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        )}
                                         <div className="post-div mb-2">
                                             <img className="profile-img-post me-3" src={ApiUrl + "/" + val.users[0].profileImage.path} />
                                             <div style={{ float: "right" }}>
@@ -152,25 +143,18 @@ const Home = () => {
                                         }
                                         <br />
                                         <hr />
-                                        {
-                                            val.likes.length > 0 ?
-                                                <>
-                                                    <p>
-                                                        <i className="fa-solid fa-thumbs-up me-2 text-success"></i>
-                                                        {val.likes.length}
-                                                    </p>
-                                                </>
-                                                :
-                                                <>
-                                                </>
-                                        }
+                                        {val.likes.length > 0 && (
+                                            <p>
+                                                <i className="fa-solid fa-thumbs-up me-2 text-success"></i>
+                                                {val.likes.length}
+                                            </p>
+                                        )}
                                         <button
                                             onClick={() => likeOrUnlike(val._id)}
                                             className={
                                                 `btn btn-dark me-2 p-2 rounded-3
-                                            ${val.likes.filter(p => p.userId === getUser()._id).length > 0 ? 'text-success bg-success-subtle' : ''}`
-                                            }
-                                        >
+                                            ${val.likes.filter(p => p.userId === User._id).length > 0 ? 'text-success bg-success-subtle' : ''}`
+                                            }>
                                             <i className="fa-solid fa-thumbs-up me-2"> </i>
                                             Like
                                         </button>
@@ -200,25 +184,10 @@ const Home = () => {
                                             </div>
                                             {val.comments.map((commentVal, commentIndex) => {
                                                 return (
-                                                    <div className="comment my-2">
-                                                        <div className="post-div">
-                                                            <img
-                                                                className="profile-img-comment me-3"
-                                                                src={ApiUrl + "/" + commentVal.user.profileImage.path}
-                                                            />
-                                                            <div className="comment-div px-3 pt-2 rounded-4">
-                                                                <p style={{ marginBottom: "0" }}>
-                                                                    {commentVal.user.name}
-                                                                </p>
-                                                                <p className="text-white-50" style={{ fontWeight: "300", fontSize: "0.8em", marginBottom: "0" }}>
-                                                                    {DateFormat(val.createdDate)}
-                                                                </p>
-                                                                <p className="ms-2">
-                                                                    {commentVal.content}
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                    <Comment
+                                                        DateFormat={DateFormat}
+                                                        commentVal={commentVal}
+                                                        val={val} />
                                                 )
                                             })}
                                         </div>
@@ -229,24 +198,11 @@ const Home = () => {
 
                     </div>
                     {/* Profil Card */}
-                    <div className="col-md-4">
-                        <div className="text-white bg-dark text-center rounded-3 pb-2">
-                            <img
-                                className="profile-img my-4"
-                                src={ApiUrl + "/" + User.profileImage.path} />
-                            <h5 className="text-info">{User.name}</h5>
-                            <p className="text-white-50">{User.profession}</p>
-                        </div>
-                        <div className="text-white bg-dark rounded-3 pb-2 mt-4 p-4">
-                            <h5 className="text-info">About Me</h5>
-                            <hr />
-                            <p>Hakkımda: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                        </div>
-                    </div>
+                    <ProfileCard User={User} />
                 </div>
 
                 <PostAddModal getPost={getPost} />
-            </div>
+            </div >
         </>
     )
 }
