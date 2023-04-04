@@ -28,6 +28,7 @@ body {
 .profile-img {
   width: 40%;
   border-radius: 100%;
+  object-fit: cover;
   border: 2px solid #5fa4b6;
 }
 
@@ -35,6 +36,7 @@ body {
   width: 55px;
   height: 55px;
   border-radius: 100%;
+  object-fit: cover;
   border: 2px solid #5fa4b6;
 }
 
@@ -92,4 +94,24 @@ input {
 
 textarea:focus {
     outline: 0;
+}
+
+/* Profile Page Style */
+
+.profile-page-img{
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 100%;
+  border: 2px solid #5fa4b6;
+}
+
+.profile-header {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+.bg-profile-info{
+  background-color: #f5930025;
 }

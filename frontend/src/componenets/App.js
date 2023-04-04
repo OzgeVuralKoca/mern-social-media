@@ -4,7 +4,7 @@ import NotFound from "./NotFound";
 import Login from "./Login";
 import Register from "./register"
 import Home from "./HomeComponents/home";
-import Profile from "./profile"
+import Profile from "./ProfileComponent/Profile";
 
 function App() {
   return (

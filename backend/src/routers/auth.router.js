@@ -8,6 +8,7 @@ const token = require("../services/tokenService")
 
 const Router = express.Router()
 
+// Register
 Router.post('/register', upload.single("image"), async (req, res) => {
     try {
         const user = new User(req.body)
@@ -41,6 +42,7 @@ Router.post('/register', upload.single("image"), async (req, res) => {
     }
 })
 
+// Login
 Router.post("/login", async (req, res) => {
     try {
         const { emailOrUserName, password } = req.body
@@ -60,5 +62,7 @@ Router.post("/login", async (req, res) => {
         res.status(500).json({ message: error.message })
     }
 })
+
+// Update
 
 module.exports = Router

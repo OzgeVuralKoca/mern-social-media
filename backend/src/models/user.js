@@ -32,7 +32,7 @@ const userSchema = new mongoose.Schema({
         type: Object,
         required: true
     },
-    created: Date,
+    createdDate: Date,
     updatedDate: Date
 })
 
