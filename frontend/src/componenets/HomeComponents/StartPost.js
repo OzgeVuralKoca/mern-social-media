@@ -1,6 +1,7 @@
 import ApiUrl from '../../common/ApiUrl'
 
 const StartPost = ({User}) => {
+
     return (
         <>
             <div className="text-white bg-dark rounded-3 p-4 post-shadow">

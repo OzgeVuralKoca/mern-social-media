@@ -1,8 +1,8 @@
-import React from 'react'
 import ApiUrl from '../../common/ApiUrl'
 import { Link } from 'react-router-dom'
 
 const ProfileCard = ({ User }) => {
+
     return (
         <div className="col-md-4">
             <div className="text-white bg-dark rounded-3 pb-2 px-4">

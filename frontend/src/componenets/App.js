@@ -1,11 +1,10 @@
-import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom"
+import { BrowserRouter, Route, Routes } from "react-router-dom"
 import Layouts from "./layouts";
 import NotFound from "./NotFound";
 import Login from "./Login";
 import Register from "./register"
 import Home from "./HomeComponents/home";
 import Profile from "./ProfileComponent/Profile";
-import OtherProfile from "./HomeComponents/OtherProfile";
 
 function App() {
 

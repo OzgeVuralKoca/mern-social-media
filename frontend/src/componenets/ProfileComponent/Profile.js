@@ -1,9 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import ApiUrl from "../../common/ApiUrl";
 import ProfileModal from "./ProfileModal";
+import Posts from "../PostComponents/Posts";
+import request from "../../common/HttpService";
+import { useEffect, useState } from "react";
 
 const Profile = () => {
     const navigate = useNavigate()
+    const [posts, setPosts] = useState([])
+    const [pageSize, setPageSize] = useState(10)
 
     const getUser = () => {
         const userString = localStorage.getItem("user");
@@ -13,6 +18,18 @@ const Profile = () => {
         return JSON.parse(userString);
     }
     const user = getUser()
+
+    const getPost = (p = 10) => {
+        let model = { pageSize: p, userId: user._id }
+        request(ApiUrl + "/posts", model, "post", (res) => {
+            setPosts(res.data)
+            console.log(res.data)
+        })
+    }
+
+    useEffect(() => {
+        getPost()
+    }, [])
 
     return (
         <>
@@ -31,14 +48,14 @@ const Profile = () => {
                                 src={ApiUrl + "/" + user.profileImage.path} />
                             <div className="bg-profile-info mx-5 p-3 mb-3 rounded-3">
                                 <h5 className="text-warning">{user.name}</h5>
-                                <p style={{margin: "0"}} className="text-white">{user.profession}</p>
-                                <p style={{margin: "0"}} className="text-white">{user.workPlace}</p>
-                                <p style={{margin: "0"}} className="text-white">{user.location}</p>
+                                <p style={{ margin: "0" }} className="text-white">{user.profession}</p>
+                                <p style={{ margin: "0" }} className="text-white">{user.workPlace}</p>
+                                <p style={{ margin: "0" }} className="text-white">{user.location}</p>
                                 <a
-                                  href={user.webPage}
-                                  target="_blank"
-                                  style={{margin: "0"}}
-                                  className="text-info">
+                                    href={user.webPage}
+                                    target="_blank"
+                                    style={{ margin: "0" }}
+                                    className="text-info">
                                     {user.webPage}
                                 </a>
                             </div>
@@ -48,10 +65,23 @@ const Profile = () => {
                             <hr />
                             <p>{user.about}</p>
                         </div>
+                        {posts.map((val, index) => {
+                            if (user._id === val.users[0]._id) {
+                                return (
+                                    <Posts
+                                        getPost={getPost}
+                                        User={user}
+                                        pageSize={pageSize}
+                                        index={index}
+                                        val={val} />
+                                )
+                            }  
+                        })}
+
                     </div>
                 </div>
             </div>
-            <ProfileModal/>
+            <ProfileModal />
         </>
     )
 }
