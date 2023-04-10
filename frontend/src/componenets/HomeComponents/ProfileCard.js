@@ -12,7 +12,6 @@ const ProfileCard = ({ User }) => {
                             className="profile-img my-4"
                             src={ApiUrl + "/" + User.profileImage.path} />
                     </Link>
-
                     <h5 className="text-warning">{User.name}</h5>
                     <p style={{ margin: "0" }} className="text-white">{User.profession}</p>
                 </div>
