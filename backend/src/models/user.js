@@ -32,6 +32,10 @@ const userSchema = new mongoose.Schema({
         type: Object,
         required: true
     },
+    location: String,
+    about: String,
+    webPage: String,
+    workPlace: String,
     createdDate: Date,
     updatedDate: Date
 })

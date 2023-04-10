@@ -13,6 +13,8 @@ const PostAddModal = ({ getPost }) => {
     const [type, setType] = useState("");
     const [previewUrl, setPreviewUrl] = useState("");
 
+    
+
     const fileInput = useRef(null);
 
     // dosyayı yükleme ve önizleme

@@ -21,6 +21,10 @@ Router.post('/register', upload.single("image"), async (req, res) => {
                     res.status(403).json({ message: "Profile picture must be smaller than 5 MB." })
                 } else {
                     user._id = uuidv4()
+                    user.location = ""
+                    user.about = ""
+                    user.webPage = ""
+                    user.workPlace = ""
                     user.createdDate = new Date().setHours(new Date().getUTCHours() + 3)
                     user.profileImage = req.file
                     await user.save()
@@ -64,5 +68,23 @@ Router.post("/login", async (req, res) => {
 })
 
 // Update
+Router.post("/updateUser", async (req, res) => {
+    try {
+        const { _id, name, profession, webPage, workPlace, location, about } = req.body
+        await User.findByIdAndUpdate(_id, {
+            name: name,
+            profession: profession, 
+            location: location,
+            webPage: webPage,
+            workPlace: workPlace,
+            about: about,
+            updatedDate: Date.now(),
+        })
+        const updatedUser = await User.findById(_id);
+        res.json(updatedUser);
+    } catch (error) {
+        res.status(500).json({message: error.message})
+    }
+})
 
 module.exports = Router

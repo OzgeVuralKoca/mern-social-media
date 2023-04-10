@@ -1,11 +1,25 @@
 import { Outlet, Link, useNavigate } from 'react-router-dom'
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import ApiUrl from "../common/ApiUrl"
 
 
 const Layouts = () => {
-
     const navigate = useNavigate()
+    const userString = localStorage.getItem("user");
+
+    useEffect(() => {
+        if(!userString){
+            navigate("/login")
+        }
+    }, [navigate])
+
+    const getUser = () => {
+        if (userString === null) {
+            navigate("/login");
+            return null;
+        }
+        return JSON.parse(userString);
+    };
 
     const logout = () => {
         localStorage.clear();
@@ -23,13 +37,6 @@ const Layouts = () => {
         authenticationCheck()
     }, [])
 
-    const getUser = () => {
-        const userString = localStorage.getItem("user");
-        if (userString == null) {
-            navigate("/login")
-        }
-        return JSON.parse(userString);
-    }
 
     return (
         <>
@@ -59,7 +66,7 @@ const Layouts = () => {
                     </div>
                 </div>
             </nav>
-                <Outlet />
+            <Outlet />
         </>
     )
 }

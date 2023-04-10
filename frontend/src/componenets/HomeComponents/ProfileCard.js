@@ -1,20 +1,40 @@
 import React from 'react'
 import ApiUrl from '../../common/ApiUrl'
 
-const ProfileCard = ({User}) => {
+const ProfileCard = ({ User }) => {
     return (
         <div className="col-md-4">
-            <div className="text-white bg-dark text-center rounded-3 pb-2">
-                <img
-                    className="profile-img my-4"
-                    src={ApiUrl + "/" + User.profileImage.path} />
-                <h5 className="text-info">{User.name}</h5>
-                <p className="text-white-50">{User.profession}</p>
-            </div>
-            <div className="text-white bg-dark rounded-3 pb-2 mt-4 p-4">
-                <h5 className="text-info">About Me</h5>
+            <div className="text-white bg-dark rounded-3 pb-2 px-4">
+                <div className='text-center'>
+                    <img
+                        className="profile-img my-4"
+                        src={ApiUrl + "/" + User.profileImage.path} />
+                    <h5 className="text-warning">{User.name}</h5>
+                    <p style={{ margin: "0" }} className="text-white">{User.profession}</p>
+                </div>
                 <hr />
-                <p>Hakkımda: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                <div className='mb-3'>
+                    <p style={{ margin: "0" }} className="text-white-50">
+                        <i className="fa-solid fa-briefcase me-2"></i>
+                        {User.workPlace}
+                    </p>
+                    <p style={{ margin: "0" }} className="text-white-50">
+                        <i className="fa-solid fa-location-dot me-2"></i>
+                        {User.location}
+                    </p>
+                    <a
+                        href={User.webPage}
+                        target="_blank"
+                        className="text-white-50">
+                        <i style={{ fontSize: "0.6em" }} className="fa-solid fa-link me-2"></i>
+                        {User.webPage}
+                    </a>
+                </div>
+            </div>
+            <div className="text-white bg-dark rounded-3 mt-4 p-5">
+                <h5 className="text-warning">About Me</h5>
+                <hr />
+                <p>{User.about}</p>
             </div>
         </div>
     )

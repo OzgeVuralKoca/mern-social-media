@@ -3,7 +3,7 @@
 }
 
 .text-orange {
-  color: #de4f0d
+  color: #f59300
 }
 
 body {
@@ -72,7 +72,7 @@ input {
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(to left, #3a81c1, #de4f0d);
+  background: linear-gradient(to left, #3a81c1, #f59300);
 }
 
 .loginBgImg {
