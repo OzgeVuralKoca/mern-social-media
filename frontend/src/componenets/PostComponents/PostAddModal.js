@@ -1,10 +1,10 @@
 import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
-import ApiUrl from "../../common/ApiUrl"
-import request from '../../common/HttpService'
-import CallToast from '../../common/toast'
+import ApiUrl from "../common/ApiUrl"
+import request from '../common/HttpService'
+import CallToast from '../common/toast'
 import "../style.css"
-import nowTime from '../../common/NowTime'
+import nowTime from '../common/NowTime'
 
 const PostAddModal = ({ getPost }) => {
     const navigate = useNavigate()

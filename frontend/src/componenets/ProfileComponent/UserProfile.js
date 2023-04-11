@@ -1,8 +1,8 @@
 import { useParams } from "react-router-dom";
-import ApiUrl from "../../common/ApiUrl";
+import ApiUrl from "../common/ApiUrl";
 import ProfileModal from "./ProfileModal";
 import Posts from "../PostComponents/Posts";
-import request from "../../common/HttpService";
+import request from "../common/HttpService";
 import { useEffect, useState } from "react";
 import axios from "axios";
 

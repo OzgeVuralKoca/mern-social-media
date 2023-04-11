@@ -1,4 +1,4 @@
-import ApiUrl from '../../common/ApiUrl'
+import ApiUrl from '../common/ApiUrl'
 
 const StartPost = ({User}) => {
 

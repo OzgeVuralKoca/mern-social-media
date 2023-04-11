@@ -1,8 +1,8 @@
 import React from 'react'
-import ApiUrl from '../../common/ApiUrl';
-import request from '../../common/HttpService';
+import ApiUrl from '../common/ApiUrl';
+import request from '../common/HttpService';
 import Comment from '../HomeComponents/Comment';
-import DateFormat from '../../common/DateFormat';
+import DateFormat from '../common/DateFormat';
 import { useNavigate } from 'react-router-dom';
 
 const Posts = ({User, getPost, pageSize, index, val}) => {

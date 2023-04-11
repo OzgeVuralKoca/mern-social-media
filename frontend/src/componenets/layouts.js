@@ -1,6 +1,6 @@
 import { Outlet, Link, useNavigate } from 'react-router-dom'
 import { useEffect } from "react"
-import ApiUrl from "../common/ApiUrl"
+import ApiUrl from "./common/ApiUrl"
 
 
 const Layouts = () => {

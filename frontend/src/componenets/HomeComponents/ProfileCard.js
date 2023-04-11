@@ -1,4 +1,4 @@
-import ApiUrl from '../../common/ApiUrl'
+import ApiUrl from '../common/ApiUrl'
 import { Link } from 'react-router-dom'
 
 const ProfileCard = ({ User }) => {

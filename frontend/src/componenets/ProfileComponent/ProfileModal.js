@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import ApiUrl from '../../common/ApiUrl';
-import request from '../../common/HttpService';
-import CallToast from '../../common/toast';
+import ApiUrl from '../common/ApiUrl';
+import request from '../common/HttpService';
+import CallToast from '../common/toast';
 import { useNavigate } from 'react-router-dom';
 
 const ProfileModal = () => {
