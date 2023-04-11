@@ -24,7 +24,6 @@ function App() {
               path="/profiles/:id"
               element={isAuth ? <Profiles /> : <Navigate to="/" />}
             />
-            <Route path="*" element={<NotFound />}></Route>
           </Route>
         </Routes>
       </BrowserRouter>
