@@ -1,6 +1,5 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom"
 import Layouts from "./layouts";
-import NotFound from "./NotFound";
 import Login from "./AuthComponent/Login";
 import Register from "./AuthComponent/register"
 import Home from "./HomeComponents/home";
