@@ -8,7 +8,7 @@ import axios from "axios";
 
 const Profiles = () => {
     const [posts, setPosts] = useState([])
-    const [pageSize, setPageSize] = useState(10)
+    const [pageSize] = useState(10)
     const { id } = useParams()
     const [user, setUser] = useState(null);
 
@@ -39,22 +39,21 @@ const Profiles = () => {
         if (user) {
             getPost();
         }
-    }, [user]);
-
+    }, [user, getPost]);
     return (
         <>
             <div className='Container'>
                 <div className="my-4">
                     <div className="col-md-8 mx-auto">
                         <div className="text-white bg-dark rounded-3 pb-2 profile-header pt-3">
-                        {admin._id === user._id && (
-                            <button
-                                className="btn btn-sm text-white text-end me-3 pt-2"
-                                data-bs-toggle="modal"
-                                data-bs-target="#ProfileModal">
-                                <i className="fa fa-edit h5"></i>
-                            </button>
-                        )}  
+                            {admin._id === user._id && (
+                                <button
+                                    className="btn btn-sm text-white text-end me-3 pt-2"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#ProfileModal">
+                                    <i className="fa fa-edit h5"></i>
+                                </button>
+                            )}
                             <img
                                 alt='...'
                                 className="profile-page-img mx-5 mt-1 mb-3"
@@ -90,6 +89,7 @@ const Profiles = () => {
                                         val={val} />
                                 )
                             }
+                            return null;
                         })}
 
                     </div>

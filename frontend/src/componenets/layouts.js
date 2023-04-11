@@ -8,17 +8,18 @@ const Layouts = () => {
     const userString = localStorage.getItem("user");
 
     useEffect(() => {
-        if(!userString){
+        if (!userString) {
             navigate("/")
         }
     }, [navigate])
 
     const getUser = () => {
-        if (userString === null) {
+        const user = JSON.parse(userString);
+        if (user === null) {
             navigate("/");
             return null;
         }
-        return JSON.parse(userString);
+        return user;
     };
 
     const logout = () => {
