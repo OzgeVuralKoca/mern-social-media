@@ -1,6 +1,8 @@
 const express = require("express")
-const User = require("../models/user")
 const { v4: uuidv4 } = require("uuid")
+const bcrypt = require("bcrypt")
+
+const User = require("../models/user")
 const upload = require("../services/uploadService")
 const removeFile = require("../services/removeFileService")
 const File = require("../dtos/file")
@@ -20,13 +22,18 @@ Router.post('/register', upload.single("image"), async (req, res) => {
                     removeFile([req.file])
                     res.status(403).json({ message: "Profile picture must be smaller than 5 MB." })
                 } else {
+                    const salt = await bcrypt.genSalt()
+                    const passwordHash = await bcrypt.hash(user.password, salt)
+
                     user._id = uuidv4()
                     user.location = ""
                     user.about = ""
                     user.webPage = ""
                     user.workPlace = ""
+                    user.friends = ""
                     user.createdDate = new Date().setHours(new Date().getUTCHours() + 3)
                     user.profileImage = req.file
+                    user.password = passwordHash
                     await user.save()
                     const model = { token: token(), user: user };
                     res.json(model);
@@ -54,7 +61,8 @@ Router.post("/login", async (req, res) => {
         if (user == null) {
             res.status(403).json({ message: "User is not found!" })
         } else {
-            if (user.password != password) {
+            const isMatch = await bcrypt.compare(password, user.password)
+            if (!isMatch) {
                 res.status(403).json({ message: "Password is wrong!" })
             } else {
                 const model = { token: token(), user: user }
@@ -73,7 +81,7 @@ Router.post("/updateUser", async (req, res) => {
         const { _id, name, profession, webPage, workPlace, location, about } = req.body
         await User.findByIdAndUpdate(_id, {
             name: name,
-            profession: profession, 
+            profession: profession,
             location: location,
             webPage: webPage,
             workPlace: workPlace,
@@ -83,7 +91,7 @@ Router.post("/updateUser", async (req, res) => {
         const updatedUser = await User.findById(_id);
         res.json(updatedUser);
     } catch (error) {
-        res.status(500).json({message: error.message})
+        res.status(500).json({ message: error.message })
     }
 })
 

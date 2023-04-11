@@ -5,13 +5,14 @@ const { v4: uuidv4 } = require("uuid")
 
 Router.post("/likeOrUnlike", async (req, res) => {
     try {
-        const { userId, postId } = req.body
-        let likePost = await LikePost.findOne({ userId: userId, postId: postId })
+        const { userId, postId, userName } = req.body
+        let likePost = await LikePost.findOne({ userId: userId, postId: postId, userName: userName })
         if (likePost == null) {
             likePost = new LikePost({
                 _id: uuidv4(),
                 userId: userId,
-                postId: postId
+                postId: postId,
+                userName: userName,
             })
             await likePost.save()
         } else {

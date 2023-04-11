@@ -32,6 +32,10 @@ const userSchema = new mongoose.Schema({
         type: Object,
         required: true
     },
+    friends: {
+        type: Array,
+        default: []
+    },
     location: String,
     about: String,
     webPage: String,

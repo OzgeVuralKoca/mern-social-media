@@ -3,22 +3,16 @@ import "../style.css"
 import request from "../../common/HttpService"
 import ApiUrl from "../../common/ApiUrl"
 import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
-import StartPost from "./StartPost"
+import StartPost from "../PostComponents/StartPost"
 import ProfileCard from "./ProfileCard"
 import Posts from "../PostComponents/Posts"
 
-const Home = ({val}) => {
+const Home = () => {
     const [posts, setPosts] = useState([])
     const [pageSize, setPageSize] = useState(10)
-    const navigate = useNavigate()
 
     const getUser = () => {
         const userString = localStorage.getItem("user");
-        if (userString == null) {
-            navigate("/login");
-            return null;
-        }
         return JSON.parse(userString);
     };
     const User = getUser();
@@ -52,7 +46,7 @@ const Home = ({val}) => {
         }
     }, [])
 
-    
+
 
     return (
         <>
@@ -68,7 +62,8 @@ const Home = ({val}) => {
                         {/* posts */}
                         {posts.map((val, index) => {
                             return (
-                                <Posts 
+                                <Posts
+                                    key={index}
                                     getPost={getPost}
                                     User={User}
                                     pageSize={pageSize}

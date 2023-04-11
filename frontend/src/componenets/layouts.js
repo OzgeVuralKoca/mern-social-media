@@ -9,13 +9,13 @@ const Layouts = () => {
 
     useEffect(() => {
         if(!userString){
-            navigate("/login")
+            navigate("/")
         }
     }, [navigate])
 
     const getUser = () => {
         if (userString === null) {
-            navigate("/login");
+            navigate("/");
             return null;
         }
         return JSON.parse(userString);
@@ -23,13 +23,13 @@ const Layouts = () => {
 
     const logout = () => {
         localStorage.clear();
-        navigate("/login")
+        navigate("/")
     }
 
     const authenticationCheck = () => {
         let token = localStorage.getItem("token")
         if (token == null) {
-            navigate("/login")
+            navigate("/")
         }
     }
 
@@ -42,7 +42,7 @@ const Layouts = () => {
         <>
             <nav className="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
                 <div className="container-fluid container">
-                    <Link to="/" className="navbar-brand fs-4">social <span className="text-info">me</span>dia</Link>
+                    <Link to="/home" className="navbar-brand fs-4">social <span className="text-info">me</span>dia</Link>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>

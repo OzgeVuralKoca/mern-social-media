@@ -16,7 +16,7 @@ const Login = () => {
             localStorage.setItem("token",res.data.token)
             localStorage.setItem("user",JSON.stringify(res.data.user))
             CallToast("success", "Login successful!")
-            navigate("/")
+            navigate("/home")
         })
     }
 

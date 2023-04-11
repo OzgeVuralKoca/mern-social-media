@@ -3,15 +3,18 @@ import ApiUrl from '../../common/ApiUrl';
 import request from '../../common/HttpService';
 import Comment from '../HomeComponents/Comment';
 import DateFormat from '../../common/DateFormat';
+import { useNavigate } from 'react-router-dom';
 
 const Posts = ({User, getPost, pageSize, index, val}) => {
+    const navigate = useNavigate()
+
     const showComment = (index) => {
         let element = document.getElementById("div-" + index);
         element.style = "";
     }
 
     const likeOrUnlike = (postId) => {
-        let model = { userId: User._id, postId: postId }
+        let model = { userId: User._id, postId: postId, userName: User.userName }
         request(ApiUrl + "/likeOrUnlike", model, "post", () => {
             getPost(pageSize)
         })
@@ -23,6 +26,7 @@ const Posts = ({User, getPost, pageSize, index, val}) => {
         let model = { postId: _id, content: content, userId: User._id }
         request(ApiUrl + "/comments/add", model, "post", (res) => {
             getPost();
+            console.log(getPost())
         })
         element.value = ""
     }
@@ -55,7 +59,10 @@ const Posts = ({User, getPost, pageSize, index, val}) => {
                         </div>
                     )}
                     <div className="post-div mb-2">
-                        <img className="profile-img-post me-3" src={ApiUrl + "/" + val.users[0].profileImage.path} />
+                        <img 
+                            className="profile-img-post me-3" style={{cursor: "pointer"}}
+                            src={ApiUrl + "/" + val.users[0].profileImage.path} 
+                            onClick={() => navigate('/profiles/' + val.users[0]._id)} />
                         <div style={{ float: "right" }}>
                             <p style={{ marginBottom: "0" }}>
                                 {val.users[0].name}
@@ -82,14 +89,23 @@ const Posts = ({User, getPost, pageSize, index, val}) => {
                         val.image != undefined &&
                         <img width="100%" src={ApiUrl + "/" + val.image.path} />
                     }
-                    <br />
-                    <hr />
+                    <br /><br />
                     {val.likes.length > 0 && (
-                        <p>
-                            <i className="fa-solid fa-thumbs-up me-2 text-success"></i>
-                            {val.likes.length}
+                        <p className='text-white-50' style={{float: "left", fontSize: "0.8em"}}>
+                            <i className="fa-solid fa-thumbs-up me-2 text-success" ></i>
+                            {val.likes[0].userName}
+                            <span className='text-white-50'> {val.likes.length > 1 ? `and ${val.likes.length - 1} other` : ""}</span>
                         </p>
                     )}
+                    {val.comments.length > 0 && (
+                        <p className='text-white-50' style={{float: "right", fontSize: "0.8em"}}>
+                            {val.comments.length}
+                            <i className="fa-regular fa-comment ms-2"></i>
+                            
+                        </p>
+                    )}
+                    <br />
+                    <hr />
                     <button
                         onClick={() => likeOrUnlike(val._id)}
                         className={
@@ -126,6 +142,7 @@ const Posts = ({User, getPost, pageSize, index, val}) => {
                         {val.comments.map((commentVal, commentIndex) => {
                             return (
                                 <Comment
+                                    key={commentIndex}
                                     DateFormat={DateFormat}
                                     commentVal={commentVal}
                                     val={val} />

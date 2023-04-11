@@ -8,6 +8,7 @@ const authRouter = require("./src/routers/auth.router")
 const postRouter = require("./src/routers/post.router")
 const likePostRouter = require("./src/routers/like-post.router")
 const commentRouter = require("./src/routers/comment.router")
+const usersRouter = require("./src/routers/users.router")
 
 // Database Connection
 connection()
@@ -26,8 +27,17 @@ app.use(cors())
 
 // Auth Router
 app.use("/", authRouter)
+
+// User Router
+app.use("/users", usersRouter)
+
+// Post Router
 app.use("/", postRouter)
+
+// Like Post Router
 app.use("/", likePostRouter)
+
+// Comment Router
 app.use("/comments", commentRouter)
 
 // Listen Port

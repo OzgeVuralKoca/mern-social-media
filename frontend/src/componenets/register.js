@@ -26,7 +26,7 @@ const Register = () => {
             localStorage.setItem("token", res.data.token)
                 localStorage.setItem("user", JSON.stringify(res.data.user))
                 CallToast("success", "Registration successful!")
-                navigate("/");
+                navigate("/home");
         })
     }
 
@@ -157,7 +157,7 @@ const Register = () => {
                     <hr className="text-white" />
                     <div className="text-white">
                         Do have an account?
-                        <Link to="/login" className="text-info" style={{ textDecoration: "none", float: "right" }}>Login</Link>
+                        <Link to="/" className="text-info" style={{ textDecoration: "none", float: "right" }}>Login</Link>
                     </div>
                 </div>
             </div>
