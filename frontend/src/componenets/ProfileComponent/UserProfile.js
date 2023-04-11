@@ -41,10 +41,6 @@ const Profiles = () => {
         }
     }, [user]);
 
-    if (!user) {
-        return <div>Loading...</div>;
-    }
-
     return (
         <>
             <div className='Container'>

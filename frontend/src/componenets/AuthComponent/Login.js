@@ -11,13 +11,19 @@ const Login = () => {
 
     const login = (e) => {
         e.preventDefault()
-        let model = {emailOrUserName: emailOrUserName, password: password}
-        request(apiUrl + "/login", model, "post", async (res)=>{            
-            localStorage.setItem("token",res.data.token)
-            localStorage.setItem("user",JSON.stringify(res.data.user))
+        let model = { emailOrUserName: emailOrUserName, password: password }
+        request(apiUrl + "/login", model, "post", async (res) => {
+            localStorage.setItem("token", res.data.token)
+            localStorage.setItem("user", JSON.stringify(res.data.user))
             CallToast("success", "Login successful!")
             navigate("/home")
         })
+    }
+
+    const fillUserforGuest = (e) => {
+        e.preventDefault();
+        setEmailOrUserName("guest")
+        setPassword("192837")
     }
 
     const checkValidation = (e) => {
@@ -68,6 +74,12 @@ const Login = () => {
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)} />
                         </div>
+                        <div className="box text-muted">
+                            <p> or </p>
+                        </div>
+                        <button type="button" className="btn text-warning w-100" onClick={fillUserforGuest}>
+                            <h5>Guest / Misafir</h5>
+                        </button>
                         <button type="submit" className="btn btn-outline-light w-100">Login</button>
                     </form>
                     <hr className="text-white" />
