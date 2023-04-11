@@ -13,8 +13,6 @@ const usersRouter = require("./src/routers/users.router")
 // Database Connection
 connection()
 
-
-
 // For API requests
 const app = express()
 
