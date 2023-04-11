@@ -13,11 +13,11 @@ const CallToast = (type,message) =>{
     }
     if(type == "error"){
         toast.error(message, options);
-    }else if(type == "warning"){
+    }else if(type === "warning"){
         toast.warning(message, options);
-    }else if(type == "success"){
+    }else if(type === "success"){
         toast.success(message, options);
-    }else if(type == "info"){
+    }else if(type === "info"){
         toast.info(message, options);
     }    
 }

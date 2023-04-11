@@ -2,7 +2,7 @@ import axios from 'axios';
 import CallToast from './toast';
 
 const request = (api, model, type, callBack) => {
-    if (type == "post") {
+    if (type === "post") {
         axios.post(api, model).then(res => {
             callBack(res);
         })
