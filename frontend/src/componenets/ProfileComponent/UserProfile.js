@@ -3,7 +3,7 @@ import ApiUrl from "../common/ApiUrl";
 import ProfileModal from "./ProfileModal";
 import Posts from "../PostComponents/Posts";
 import request from "../common/HttpService";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 
 const Profiles = () => {
@@ -27,19 +27,14 @@ const Profiles = () => {
             .catch((err) => console.log(err));
     }, [id]);
 
-    const getPost = (p = 10) => {
+    const getPost = useCallback((p = 10) => {
         let model = { pageSize: p, userId: user._id }
         request(ApiUrl + "/posts", model, "post", (res) => {
             setPosts(res.data)
             console.log(res.data)
         })
-    }
+    }, [user._id]);
 
-    useEffect(() => {
-        if (user) {
-            getPost();
-        }
-    }, [user, getPost]);
     return (
         <>
             <div className='Container'>

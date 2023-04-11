@@ -3,12 +3,12 @@ import ApiUrl from "../common/ApiUrl";
 import ProfileModal from "./ProfileModal";
 import Posts from "../PostComponents/Posts";
 import request from "../common/HttpService";
-import { useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 
 const Profile = () => {
     const navigate = useNavigate()
     const [posts, setPosts] = useState([])
-    const [pageSize, setPageSize] = useState(10)
+    const [pageSize] = useState(10)
 
     const getUser = () => {
         const userString = localStorage.getItem("user");
@@ -19,17 +19,13 @@ const Profile = () => {
     }
     const user = getUser()
 
-    const getPost = (p = 10) => {
+    const getPost = useCallback((p = 10) => {
         let model = { pageSize: p, userId: user._id }
         request(ApiUrl + "/posts", model, "post", (res) => {
             setPosts(res.data)
             console.log(res.data)
         })
-    }
-
-    useEffect(() => {
-        getPost()
-    }, [])
+    }, [user._id]);
 
     return (
         <>
@@ -77,7 +73,8 @@ const Profile = () => {
                                         index={index}
                                         val={val} />
                                 )
-                            }  
+                            } 
+                            return null; 
                         })}
 
                     </div>

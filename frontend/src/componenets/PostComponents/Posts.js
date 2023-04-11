@@ -80,14 +80,14 @@ const Posts = ({User, getPost, pageSize, index, val}) => {
                         {val.content}
                     </p>
                     {
-                        val.video != undefined &&
+                        val.video !== undefined &&
                         <video width="100%" controls>
                             <source src={ApiUrl + "/" + val.video.path} type="video/mp4" />
                             Your browser does not support the video tag.
                         </video>
                     }
                     {
-                        val.image != undefined &&
+                        val.image !== undefined &&
                         <img alt='...' width="100%" src={ApiUrl + "/" + val.image.path} />
                     }
                     <br /><br />

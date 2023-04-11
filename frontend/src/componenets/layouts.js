@@ -1,5 +1,5 @@
 import { Outlet, Link, useNavigate } from 'react-router-dom'
-import { useEffect } from "react"
+import { useCallback, useEffect } from "react"
 import ApiUrl from "./common/ApiUrl"
 
 
@@ -11,7 +11,7 @@ const Layouts = () => {
         if (!userString) {
             navigate("/")
         }
-    }, [navigate])
+    }, [navigate, userString])
 
     const getUser = () => {
         const user = JSON.parse(userString);
@@ -27,16 +27,16 @@ const Layouts = () => {
         navigate("/")
     }
 
-    const authenticationCheck = () => {
+    const authenticationCheck = useCallback(() => {
         let token = localStorage.getItem("token")
         if (token == null) {
             navigate("/")
         }
-    }
+    }, [navigate])
 
     useEffect(() => {
         authenticationCheck()
-    }, [])
+    }, [authenticationCheck])
 
 
     return (
@@ -50,10 +50,10 @@ const Layouts = () => {
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                             <li className="nav-item dropdown">
-                                <a className="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <button className="nav-link dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <img alt='...' className="profile-img-comment me-2" src={ApiUrl + "/" + getUser().profileImage.path} />
                                     {getUser().name}
-                                </a>
+                                </button>
                                 <ul className="dropdown-menu dropdown-menu-end">
                                     <li>
                                         <Link to="/profile" className="dropdown-item">Profile</Link>
