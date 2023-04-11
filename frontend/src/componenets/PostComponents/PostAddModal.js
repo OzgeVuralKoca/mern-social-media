@@ -86,7 +86,7 @@ const PostAddModal = ({ getPost }) => {
                         </div>
                         <div className="modal-body">
                             <div className="post-div mb-2">
-                                <img className="profile-img-post me-3" src={ApiUrl + "/" + User.profileImage.path} />
+                                <img alt='...' className="profile-img-post me-3" src={ApiUrl + "/" + User.profileImage.path} />
                                 <div>
                                     <p style={{ marginBottom: "0" }}>
                                         {User.name}

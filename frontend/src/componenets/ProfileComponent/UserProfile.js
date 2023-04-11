@@ -56,6 +56,7 @@ const Profiles = () => {
                             </button>
                         )}  
                             <img
+                                alt='...'
                                 className="profile-page-img mx-5 mt-1 mb-3"
                                 src={ApiUrl + "/" + user.profileImage.path} />
                             <div className="bg-profile-info mx-5 p-3 mb-3 rounded-3">

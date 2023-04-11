@@ -60,6 +60,7 @@ const Posts = ({User, getPost, pageSize, index, val}) => {
                     )}
                     <div className="post-div mb-2">
                         <img 
+                            alt='...'
                             className="profile-img-post me-3" style={{cursor: "pointer"}}
                             src={ApiUrl + "/" + val.users[0].profileImage.path} 
                             onClick={() => navigate('/profiles/' + val.users[0]._id)} />
@@ -87,7 +88,7 @@ const Posts = ({User, getPost, pageSize, index, val}) => {
                     }
                     {
                         val.image != undefined &&
-                        <img width="100%" src={ApiUrl + "/" + val.image.path} />
+                        <img alt='...' width="100%" src={ApiUrl + "/" + val.image.path} />
                     }
                     <br /><br />
                     {val.likes.length > 0 && (

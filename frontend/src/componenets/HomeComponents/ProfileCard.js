@@ -8,6 +8,7 @@ const ProfileCard = ({ User }) => {
                 <div className='text-center'>
                     <Link to="/profile">
                         <img
+                            alt='...'
                             className="profile-img my-4"
                             src={ApiUrl + "/" + User.profileImage.path} />
                     </Link>

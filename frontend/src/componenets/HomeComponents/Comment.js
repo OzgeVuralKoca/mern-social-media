@@ -6,6 +6,7 @@ const Comment = ({DateFormat, commentVal, val}) => {
             <div className="post-div">
                 <img
                     className="profile-img-comment me-3"
+                    alt="..."
                     src={ApiUrl + "/" + commentVal.user.profileImage.path}
                 />
                 <div className="comment-div px-3 pt-2 rounded-4">
