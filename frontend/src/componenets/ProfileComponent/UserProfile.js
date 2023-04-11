@@ -67,6 +67,7 @@ const Profiles = () => {
                                 <a
                                     href={user.webPage}
                                     target="_blank"
+                                    rel="noreferrer"
                                     style={{ margin: "0" }}
                                     className="text-info">
                                     {user.webPage}

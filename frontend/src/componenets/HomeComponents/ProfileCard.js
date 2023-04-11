@@ -28,6 +28,7 @@ const ProfileCard = ({ User }) => {
                     <a
                         href={User.webPage}
                         target="_blank"
+                        rel="noreferrer"
                         className="text-white-50">
                         <i style={{ fontSize: "0.6em" }} className="fa-solid fa-link me-2"></i>
                         {User.webPage}
