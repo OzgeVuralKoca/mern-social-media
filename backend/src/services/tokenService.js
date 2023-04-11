@@ -1,6 +1,10 @@
 const jwt = require("jsonwebtoken")
+const dotenv = require("dotenv")
 
-const secretKey = "My Secret Key 1234 My Secret Key *** My Secret Key 1234 My Secret Key *** My Secret Key 1234"
+// .env Configurations
+dotenv.config();
+
+const secretKey = process.env.secretKey
 
 const options = {
     expiresIn: "1d"
