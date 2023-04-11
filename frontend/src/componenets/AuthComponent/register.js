@@ -1,8 +1,8 @@
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
-import CallToast from "../common/toast"
-import ApiUrl from "../common/ApiUrl"
-import request from "../common/HttpService"
+import CallToast from "../../common/toast"
+import ApiUrl from "../../common/ApiUrl"
+import request from "../../common/HttpService"
 
 const Register = () => {
     const [userName, setUserName] = useState("");

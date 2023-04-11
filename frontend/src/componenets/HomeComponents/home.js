@@ -55,7 +55,7 @@ const Home = () => {
                     {/* Profil Card */}
                     <ProfileCard User={User} />
                     {/* Post Card */}
-                    <div className="col-md-8 ms-auto">
+                    <div className="col-md-6 mx-auto">
                         {/* Start post */}
                         <StartPost User={User} />
                         <hr className="text-white" />
@@ -72,6 +72,12 @@ const Home = () => {
                             )
                         })}
 
+                    </div>
+                    <div className="col-md-3">
+                        <div className="text-white bg-dark rounded-3 p-3">
+                            <h5 className="text-warning">Friends List</h5>
+                            <hr />
+                        </div>
                     </div>
                 </div>
 

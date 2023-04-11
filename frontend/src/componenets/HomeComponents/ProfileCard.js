@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 const ProfileCard = ({ User }) => {
 
     return (
-        <div className="col-md-4">
+        <div className="col-md-3">
             <div className="text-white bg-dark rounded-3 pb-2 px-4">
                 <div className='text-center'>
                     <Link to="/profile">
@@ -34,7 +34,7 @@ const ProfileCard = ({ User }) => {
                     </a>
                 </div>
             </div>
-            <div className="text-white bg-dark rounded-3 mt-4 p-5">
+            <div className="text-white bg-dark rounded-3 mt-4 p-3">
                 <h5 className="text-warning">About Me</h5>
                 <hr />
                 <p>{User.about}</p>
