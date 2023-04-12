@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Link, useNavigate } from "react-router-dom"
+import { Link } from "react-router-dom"
 import CallToast from "../common/toast"
 import request from "../common/HttpService"
 import apiUrl from "../common/ApiUrl"
@@ -7,7 +7,6 @@ import apiUrl from "../common/ApiUrl"
 const Login = () => {
     const [emailOrUserName, setEmailOrUserName] = useState("")
     const [password, setPassword] = useState("")
-    const navigate = useNavigate()
 
     const login = (e) => {
         e.preventDefault()
