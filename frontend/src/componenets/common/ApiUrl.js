@@ -1,3 +1,3 @@
-const ApiUrl = "https://react-social-media-ozge.onrender.com"
+const ApiUrl = "http://localhost:10000"
 
 export default ApiUrl
